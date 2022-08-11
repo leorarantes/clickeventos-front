@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "../Login";
+import SignUp from "../SignUp";
+import SignIn from "../SignIn";
 
 export default function App() {
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/sign-in" element={<SignIn />} />
             </Routes>
         </BrowserRouter>
     );
