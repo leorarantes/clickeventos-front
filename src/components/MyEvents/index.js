@@ -34,8 +34,9 @@ export default function MyEvents() {
         });
     }, []);
 
-    function goToEventDetailsPage(name) {
-        localStorage.setItem("event", `${name}`);
+    function goToMyEventPage(id, name) {
+        localStorage.setItem("eventId", `${id}`);
+        localStorage.setItem("eventName", `${name}`);
         navigate(`/events/${id}`);
     }
 
@@ -43,16 +44,16 @@ export default function MyEvents() {
         <MyEventsBody>
             <Background />
             <Header />
-            <Title>Seus eventos</Title>
+            <Title text="Seus eventos" />
             <MyEventsList>
                 {events.length === 0 ?
                         <h1>Você ainda possui eventos cadastrados</h1>
                     :
                     events.map(event => {
-                        const {name, location, timestamp} = event;
+                        const {id, name, location, timestamp} = event;
                         const dateTime = getDateTime(timestamp);
                         return (
-                            <Event style={{backgroundImage: `url(${event.photo})`}} onClick={() => goToEventDetailsPage(name)}>
+                            <Event style={{backgroundImage: `url(${event.photo})`}} onClick={() => goToMyEventPage(id, name)}>
                                     <div>
                                         <h2>{dateTime.month}</h2>
                                         <h3>{dateTime.day}</h3>

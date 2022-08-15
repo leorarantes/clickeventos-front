@@ -17,8 +17,9 @@ export default function App() {
                 <Route path="/sign-in" element={<SignIn />} />
                 <MenuContext.Provider value={{openMenu, setOpenMenu}}>
                     <Route path="/" element={<Events />} />
-                    <Route path="/events/:id" element={<Events />} />
+                    <Route path="/events/:id" element={<Event />} />
                     <Route path="/MyEvents" element={<MyEvents />} />
+                    <Route path="/MyEvent" element={<MyEvent />} />
                 </MenuContext.Provider>
             </Routes>
         </BrowserRouter>
