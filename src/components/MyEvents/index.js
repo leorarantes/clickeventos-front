@@ -3,16 +3,16 @@ import { useState, useContext } from "react";
 import axios from 'axios';
 
 import Header from '../Header';
-import Background from '../Background';
 import Footer from '../Footer';
-import Title from "../Title";
 import Menu from '../Menu';
+import Title from "../Title";
 import MenuContext from "../../contexts/MenuContext";
+import Background from '../Background';
 import {getDateTime} from "../../utils/eventsUtil";
 
-export default function Events() {
+export default function MyEvents() {
     const navigate = useNavigate();
-    const url = "localhost:4000/events";
+    const url = `localhost:4000/events/from-manager`;
     const config = {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -29,49 +29,51 @@ export default function Events() {
 			setEvents([...response.data]);
 		});
         request.catch(error => {
-            alert("Erro! Não foi possível carregar os eventos da sua cidade");
+            alert("Erro! Não foi possível carregar seus eventos.");
             console.log(error);
         });
     }, []);
 
+    function goToEventDetailsPage(name) {
+        localStorage.setItem("event", `${name}`);
+        navigate(`/events/${id}`);
+    }
+
     return (
-        <>
-            <EventsBody disabled={openMenu}>
-                <Background />
-                <Header openMenu={() => setOpenMenu(true)} />
-                <Title text="Eventos disponíveis na sua cidade" />
-                <EventsList>
-                    {events.length === 0 ?
-                        <h1>Não há eventos disponíveis no momento</h1>
+        <MyEventsBody>
+            <Background />
+            <Header />
+            <Title>Seus eventos</Title>
+            <MyEventsList>
+                {events.length === 0 ?
+                        <h1>Você ainda possui eventos cadastrados</h1>
                     :
-                        events.map(event => {
-                            const {id, name, location, timestamp} = event;
-                            const dateTime = getDateTime(timestamp);
-                            return (
-                                <Event style={{backgroundImage: `url(${event.photo})`}} onClick={() => navigate(`/events/${id}`)}>
-                                    <EventFooter>
-                                        <div>
-                                            <h2>{dateTime.month}</h2>
-                                            <h3>{dateTime.day}</h3>
-                                        </div>
-                                        <div>
-                                            <h2>{name}</h2>
-                                            <h3>{location}</h3>
-                                        </div>
-                                    </EventFooter>
-                                </Event>
-                            );
-                        })
-                    }
-                </EventsList>
-                <Footer />
-            </EventsBody>
+                    events.map(event => {
+                        const {name, location, timestamp} = event;
+                        const dateTime = getDateTime(timestamp);
+                        return (
+                            <Event style={{backgroundImage: `url(${event.photo})`}} onClick={() => goToEventDetailsPage(name)}>
+                                    <div>
+                                        <h2>{dateTime.month}</h2>
+                                        <h3>{dateTime.day}</h3>
+                                    </div>
+                                    <div>
+                                        <h2>{name}</h2>
+                                        <h3>{location}</h3>
+                                    </div>
+                                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </Event>
+                        );
+                    })
+                }
+            </MyEventsList>
+            <Footer />
             <Menu closeMenu={() => setOpenMenu(false)} style={{visibility: openMenu ? "default" : "hidden"}} />
-        </>
+        </MyEventsBody>
     );
 }
 
-const EventsBody = styled.main`
+const MyEventsBody = styled.main`
     width: 100vw;
     min-height: 100vh;
     display: flex;
@@ -88,7 +90,7 @@ const EventsBody = styled.main`
     }
 `;
 
-const EventsList = styled.nav`
+const MyEventsList = styled.nav`
     box-sizing: content-box;
     width: 100%;
     display: flex;
@@ -107,20 +109,13 @@ const EventsList = styled.nav`
 `;
 
 const Event = styled.div`
-    width: 77%;
-    height: 45vh;
-    position: relative;
-    margin-top: 26px;
-`;
-
-const EventFooter = styled.div`
     width: 100%;
     height: 27%;
-    background-color: #EFEFEF;
+    background-color: #471F69;
     display: flex;
     align-items: center;
-    position: absolute;
-    bottom: 0px;
+    justify-content: space-between;
+    margin-top: 26px;
 
     div:first-child {
         width: 7vh;
@@ -138,14 +133,14 @@ const EventFooter = styled.div`
             font-size: 1.7vh;
             line-height: 1.8vh;
             font-weight: 500;
-            color: #FF5757;
+            color: #000000;
         }
 
         h3 {
             font-size: 2.3vh;
             line-height: 2.4vh;
             font-weight: 500;
-            color: #FF5757;
+            color: #000000;
         }
     }
 
@@ -160,14 +155,21 @@ const EventFooter = styled.div`
             font-size: 4vh;
             line-height: 4.2vh;
             font-weight: 500;
-            color: #737373;
+            color: #FFFFFF;
         }
 
         h3 {
             font-size: 3vh;
             line-height: 3.2vh;
             font-weight: 500;
-            color: #737373;
+            color: #FFFFFF;
         }
+    }
+
+    ion-icon {
+        font-size: 3vh;
+        color: #FFFFFF;
+        margin-right: 6%;
+        margin-left: 4%;
     }
 `;

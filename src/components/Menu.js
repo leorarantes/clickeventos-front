@@ -26,3 +26,51 @@ export default function Menu(closeMenu) {
         </MenuBody>
     );
 }
+
+const MenuBody = styled.div`
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+
+    nav {
+        width: 70%;
+        height: 100%;
+        background-color: #471F69;
+        display: flex;
+        flex-direction: column;
+        justify-content: baseline;
+
+        ion-icon:last-child {
+            font-size: 4vh;
+            color: #FFFFFF;
+            margin-top: 2vh;
+        }
+
+        h1 {
+            font-size: 2.5vh;
+            line-height: 3vh;
+            color: #FFFFFF;
+            margin-top: 5vh;
+            margin-left: 5vh;
+        }
+
+        div {
+            width: 10vh;
+            height: 3vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            ion-icon {
+                font-size: 2.8vh;
+                color: #FFFFFF;
+            }
+        }
+    }
+`;

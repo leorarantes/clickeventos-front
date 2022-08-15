@@ -6,8 +6,8 @@ export default function Footer(openMenu) {
 
     return (
         <FooterBody>
-            <h1 onClick={() => navigate('/MyEvents')}>Criar evento</h1>
-            <ion-icon name="add-circle" onClick={() => navigate('/MyEvents', { replace: true })}></ion-icon>
+            <h1 onClick={() => navigate('/CreateEvent')}>Criar evento</h1>
+            <ion-icon name="add-circle" onClick={() => navigate('/CreateEvent', { replace: true })}></ion-icon>
         </FooterBody>
     );
 }
