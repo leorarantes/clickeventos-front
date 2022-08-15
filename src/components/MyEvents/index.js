@@ -8,7 +8,7 @@ import Menu from '../Menu';
 import Title from "../Title";
 import MenuContext from "../../contexts/MenuContext";
 import Background from '../Background';
-import {getDateTime} from "../../utils/eventsUtil";
+import { getDateTime } from "../../utils/eventsUtil";
 
 export default function MyEvents() {
     const navigate = useNavigate();
@@ -23,11 +23,11 @@ export default function MyEvents() {
     const { openMenu, setOpenMenu } = useContext(MenuContext);
 
     useEffect(() => {
-		const request = axios.get(url, config);
+        const request = axios.get(url, config);
 
-		request.then(response => {
-			setEvents([...response.data]);
-		});
+        request.then(response => {
+            setEvents([...response.data]);
+        });
         request.catch(error => {
             alert("Erro! Não foi possível carregar seus eventos.");
             console.log(error);
@@ -41,19 +41,20 @@ export default function MyEvents() {
     }
 
     return (
-        <MyEventsBody>
-            <Background />
-            <Header />
-            <Title text="Seus eventos" />
-            <MyEventsList>
-                {events.length === 0 ?
+        <>
+            <MyEventsBody disabled={openMenu}>
+                <Background />
+                <Header />
+                <Title text="Seus eventos" />
+                <MyEventsList>
+                    {events.length === 0 ?
                         <h1>Você ainda possui eventos cadastrados</h1>
-                    :
-                    events.map(event => {
-                        const {id, name, location, timestamp} = event;
-                        const dateTime = getDateTime(timestamp);
-                        return (
-                            <Event style={{backgroundImage: `url(${event.photo})`}} onClick={() => goToMyEventPage(id, name)}>
+                        :
+                        events.map(event => {
+                            const { id, name, location, timestamp } = event;
+                            const dateTime = getDateTime(timestamp);
+                            return (
+                                <Event style={{ backgroundImage: `url(${event.photo})` }} onClick={() => goToMyEventPage(id, name)}>
                                     <div>
                                         <h2>{dateTime.month}</h2>
                                         <h3>{dateTime.day}</h3>
@@ -63,14 +64,15 @@ export default function MyEvents() {
                                         <h3>{location}</h3>
                                     </div>
                                     <ion-icon name="chevron-forward-outline"></ion-icon>
-                            </Event>
-                        );
-                    })
-                }
-            </MyEventsList>
-            <Footer />
-            <Menu closeMenu={() => setOpenMenu(false)} style={{visibility: openMenu ? "default" : "hidden"}} />
-        </MyEventsBody>
+                                </Event>
+                            );
+                        })
+                    }
+                </MyEventsList>
+                <Footer />
+            </MyEventsBody>
+            <Menu closeMenu={() => setOpenMenu(false)} style={{ visibility: openMenu ? "default" : "hidden" }} />
+        </>
     );
 }
 

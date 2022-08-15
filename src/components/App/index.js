@@ -6,6 +6,7 @@ import SignUp from "../SignUp";
 import SignIn from "../SignIn";
 import Events from "../Events";
 import MyEvents from "../MyEvents";
+import MyEvent from "../MyEvent";
 
 export default function App() {
     const [openMenu, setOpenMenu] = useState(false);
@@ -20,6 +21,7 @@ export default function App() {
                     <Route path="/events/:id" element={<Event />} />
                     <Route path="/MyEvents" element={<MyEvents />} />
                     <Route path="/MyEvent" element={<MyEvent />} />
+                    <Route path="/CreateEvent" element={<MyEvent />} />
                 </MenuContext.Provider>
             </Routes>
         </BrowserRouter>

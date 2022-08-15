@@ -21,11 +21,11 @@ export default function MyEvent() {
     const { openMenu, setOpenMenu } = useContext(MenuContext);
 
     useEffect(() => {
-		const request = axios.get(url, config);
+        const request = axios.get(url, config);
 
-		request.then(response => {
-			setTickets([...response.data]);
-		});
+        request.then(response => {
+            setTickets([...response.data]);
+        });
         request.catch(error => {
             alert("Erro! Não foi possível carregar as informações do seu evento.");
             console.log(error);
@@ -33,33 +33,35 @@ export default function MyEvent() {
     }, []);
 
     return (
-        <MyEventBody>
-            <Background />
-            <Header />
-            <Title text="Informações do seu evento" />
-            <div>
-                <h1>{localStorage.getItem("eventName")}</h1>
-                <h2>{`Há ${tickets.length} pessoas confirmadas para o seu evento!`}</h2>
-            </div>
-            <ParticipantsList>
-                <h1>Lista de confirmados:</h1>
-                {tickets.map(ticket => {
-                    const {paymentVoucher, user} = ticket;
-                    return (
-                        <Participant>
-                            <h2>{user.name}</h2>
-                            <div>
-                                <h3>Baixar comp.</h3>
+        <>
+            <MyEventBody disabled={openMenu}>
+                <Background />
+                <Header />
+                <Title text="Informações do seu evento" />
+                <div>
+                    <h1>{localStorage.getItem("eventName")}</h1>
+                    <h2>{`Há ${tickets.length} pessoas confirmadas para o seu evento!`}</h2>
+                </div>
+                <ParticipantsList>
+                    <h1>Lista de confirmados:</h1>
+                    {tickets.map(ticket => {
+                        const { paymentVoucher, user } = ticket;
+                        return (
+                            <Participant>
+                                <h2>{user.name}</h2>
                                 <div>
-                                    <ion-icon name="cloud-download-outline"></ion-icon>
+                                    <h3>Baixar comp.</h3>
+                                    <div>
+                                        <ion-icon name="cloud-download-outline"></ion-icon>
+                                    </div>
                                 </div>
-                            </div>
-                        </Participant>
-                    );
-                })}
-            </ParticipantsList>
-            <Menu closeMenu={() => setOpenMenu(false)} style={{visibility: openMenu ? "default" : "hidden"}} />
-        </MyEventBody>
+                            </Participant>
+                        );
+                    })}
+                </ParticipantsList>
+            </MyEventBody>
+            <Menu closeMenu={() => setOpenMenu(false)} style={{ visibility: openMenu ? "default" : "hidden" }} />
+        </>
     );
 }
 

@@ -12,7 +12,7 @@ export default function Menu(closeMenu) {
     return (
         <MenuBody>
             <nav>
-                <h1 onClick={() => navigate('/Profile')}>Perfil</h1>
+                <h1>Perfil</h1>
                 <h1 onClick={() => navigate('/MyTickets')}>Meus Ingressos</h1>
                 <h1 onClick={() => navigate('/MyEvents')}>Meus Eventos</h1>
                 <h1>Termos de Uso</h1>
