@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from 'axios';
 
 import Header from '../Header';
@@ -9,8 +9,7 @@ import MenuContext from "../../contexts/MenuContext";
 import Background from '../Background';
 
 export default function MyEvent() {
-    const navigate = useNavigate();
-    const url = `localhost:4000/tickets/${localStorage.getItem("eventId")}`;
+    const url = `http://localhost:4000/tickets/event/${localStorage.getItem("eventId")}`;
     const config = {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -36,7 +35,7 @@ export default function MyEvent() {
         <>
             <MyEventBody disabled={openMenu}>
                 <Background />
-                <Header />
+                <Header setOpenMenu={setOpenMenu} />
                 <Title text="Informações do seu evento" />
                 <div>
                     <h1>{localStorage.getItem("eventName")}</h1>
@@ -45,7 +44,7 @@ export default function MyEvent() {
                 <ParticipantsList>
                     <h1>Lista de confirmados:</h1>
                     {tickets.map(ticket => {
-                        const { paymentVoucher, user } = ticket;
+                        const { user } = ticket;
                         return (
                             <Participant>
                                 <h2>{user.name}</h2>
@@ -60,7 +59,7 @@ export default function MyEvent() {
                     })}
                 </ParticipantsList>
             </MyEventBody>
-            <Menu closeMenu={() => setOpenMenu(false)} style={{ visibility: openMenu ? "default" : "hidden" }} />
+            <Menu setOpenMenu={setOpenMenu} openMenu={openMenu} />
         </>
     );
 }
@@ -84,21 +83,25 @@ const MyEventBody = styled.main`
         flex-direction: column;
         justify-content: center;
         border-radius: 3px;
-        margin-top: 23vh;
+        margin-top: 28vh;
         z-index: 1;
 
         h1 {
             width: 61vw;
-            font-size: 6.8vw;
-            line-height: 7vw;
+            font-size: 5vw;
+            font-weight: 800;
+            line-height: 6vw;
             color: #FFFFFF;
+            margin-bottom: 1vh;
+            margin-left: 4vw;
         }
 
         h2 {
-            width: 61vw;
-            font-size: 5vw;
-            line-height: 5.2vw;
+            width: 60vw;
+            font-size: 3.3vw;
+            line-height: 3.6vw;
             color: #FFFFFF;
+            margin-left: 4vw;
         }
     }
 `;
@@ -112,18 +115,21 @@ const ParticipantsList = styled.div`
     align-items: center;
     border-radius: 3px;
     margin-top: 10px;
-    padding-top: 5vh;
+    padding-top: 3.5vh;
     padding-bottom: 5vh;
     z-index: 1;
 
     h1 {
         width: 50vw;
-        font-size: 7.8vw;
-        line-height: 8vw;
+        font-size: 6vw;
+        line-height: 6.5vw;
         color: #000000;
+        text-align: center;
+        margin-bottom: 5vh;
     }
 
     div:nth-child(2) {
+        border-top: 0.3vh solid #000000;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
     }
@@ -141,29 +147,33 @@ const Participant = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 0.5vh solid #000000;
+    border-right: 0.3vh solid #000000;
+    border-left: 0.3vh solid #000000;
+    border-bottom: 0.3vh solid #000000;
     padding-left: 2.8vw;
     padding-right: 2.8vw;
 
     h2 {
         width: 45vw;
-        font-size: 5vw;
-        line-height: 5.2vw;
+        font-size: 3.5vw;
+        line-height: 3.5vw;
         color: #000000;
     }
 
     div:nth-child(2) {
-        width: 20vw;
+        width: 18vw;
         height: 4vh;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
+        border: none;
 
         h3 {
             width: 10vw;
-            font-size: 3vw;
-            line-height: 3.2vw;
+            font-size: 2.5vw;
+            line-height: 3vw;
             color: #A6A6A6;
+            margin-right: 4px;
         }
 
         div {
@@ -173,7 +183,7 @@ const Participant = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 1px;
+            border-radius: 3px;
 
             ion-icon {
                 font-size: 2.7vh;

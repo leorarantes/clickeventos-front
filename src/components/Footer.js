@@ -24,14 +24,14 @@ const FooterBody = styled.div`
     z-index: 2;
 
     h1 {
-        font-size: 3.7vh;
-        line-height: 4vh;
+        font-size: 2.5vh;
+        line-height: 3vh;
         color: #FFFFFF;
         margin-right: 8px;
     }
 
     ion-icon {
-        font-size: 4.3vh;
+        font-size: 3.3vh;
         color: #FFFFFF;
     }
 `;

@@ -1,5 +1,5 @@
 export function getDateTime(timestamp) {
-    const months = {0: "Janeiro", 1: "Feveireiro", 2: "Março", 3: "Abril", 4: "Maio", 5: "Junho", 6: "Julho", 7: "Agosto", 8: "Setembro", 9: "Outubro", 10: "Novembro", 11: "Dezembro"};
+    const months = {0: "JAN", 1: "FEV", 2: "MAR", 3: "ABR", 4: "MAI", 5: "JUN", 6: "JUL", 7: "AGO", 8: "SET", 9: "OUT", 10: "NOV", 11: "DEZ"};
 
     const minute = timestamp.getMinutes();
     const hour = timestamp.getHours();

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from 'axios';
 
 import Header from '../Header';
@@ -11,8 +11,7 @@ import MenuContext from "../../contexts/MenuContext";
 import {getDateTime} from "../../utils/eventsUtil";
 
 export default function Events() {
-    const navigate = useNavigate();
-    const url = "localhost:4000/events";
+    const url = "http://localhost:4000/events";
     const config = {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -38,17 +37,17 @@ export default function Events() {
         <>
             <EventsBody disabled={openMenu}>
                 <Background />
-                <Header openMenu={() => setOpenMenu(true)} />
+                <Header setOpenMenu={setOpenMenu} />
                 <Title text="Eventos disponíveis na sua cidade" />
                 <EventsList>
                     {events.length === 0 ?
                         <h1>Não há eventos disponíveis no momento</h1>
                     :
                         events.map(event => {
-                            const {id, name, location, timestamp} = event;
-                            const dateTime = getDateTime(timestamp);
+                            const {name, location, timestamp} = event;
+                            const dateTime = getDateTime(new Date(timestamp));
                             return (
-                                <Event style={{backgroundImage: `url(${event.photo})`}} onClick={() => navigate(`/events/${id}`)}>
+                                <Event style={{backgroundImage: `url(http://www.receitasedicasdochef.com.br/wp-content/uploads/2021/01/Como-Preparar-um-Delicioso-Churrasco.jpg)`}}>
                                     <EventFooter>
                                         <div>
                                             <h2>{dateTime.month}</h2>
@@ -66,7 +65,7 @@ export default function Events() {
                 </EventsList>
                 <Footer />
             </EventsBody>
-            <Menu closeMenu={() => setOpenMenu(false)} style={{visibility: openMenu ? "default" : "hidden"}} />
+            <Menu setOpenMenu={setOpenMenu} openMenu={openMenu} />
         </>
     );
 }
@@ -91,26 +90,33 @@ const EventsBody = styled.main`
 const EventsList = styled.nav`
     box-sizing: content-box;
     width: 100%;
+    min-height: 76vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 23vh;
+    margin-top: 24vh;
     padding-bottom: 26px;
     z-index: 1;
 
     h1 {
         width: 70%;
-        font-size: 6vh;
-        line-height: 7vh;
-        color: #737373;
+        font-size: 6vw;
+        line-height: 7vw;
+        color: #000000;
+        text-align: center;
     }
 `;
 
 const Event = styled.div`
-    width: 77%;
-    height: 45vh;
+    width: 77vw;
+    height: 77vw;
+    border-radius: 4px;
     position: relative;
     margin-top: 26px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 `;
 
 const EventFooter = styled.div`
@@ -120,6 +126,7 @@ const EventFooter = styled.div`
     display: flex;
     align-items: center;
     position: absolute;
+    border-radius: 4px;
     bottom: 0px;
 
     div:first-child {
@@ -135,17 +142,18 @@ const EventFooter = styled.div`
         border: 0.5vh solid #D9D9D9;
 
         h2 {
-            font-size: 1.7vh;
-            line-height: 1.8vh;
+            font-size: 1.9vh;
+            line-height: 2vh;
             font-weight: 500;
             color: #FF5757;
         }
 
         h3 {
-            font-size: 2.3vh;
-            line-height: 2.4vh;
+            font-size: 2.8vh;
+            line-height: 2.8vh;
             font-weight: 500;
             color: #FF5757;
+            margin-top: 2px;
         }
     }
 
@@ -154,18 +162,19 @@ const EventFooter = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-bottom: 5px;
         margin-left: 4%;
 
         h2 {
-            font-size: 4vh;
-            line-height: 4.2vh;
+            font-size: 6vw;
+            line-height: 6vw;
             font-weight: 500;
             color: #737373;
         }
 
         h3 {
-            font-size: 3vh;
-            line-height: 3.2vh;
+            font-size: 5vw;
+            line-height: 5vw;
             font-weight: 500;
             color: #737373;
         }

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import background from "../../assets/img/light-background.png";
+import background from "../assets/img/light-background.png";
 
 export default function Background() {
     return (
@@ -7,7 +7,7 @@ export default function Background() {
     );
 }
 
-const Background = styled.div`
+const BackgroundBody = styled.div`
     height: 100vh;
     width: 100vw;
     z-index: 0;

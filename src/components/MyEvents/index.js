@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from '../Header';
@@ -12,7 +13,7 @@ import { getDateTime } from "../../utils/eventsUtil";
 
 export default function MyEvents() {
     const navigate = useNavigate();
-    const url = `localhost:4000/events/from-manager`;
+    const url = `http://localhost:4000/events/from-manager`;
     const config = {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -37,14 +38,14 @@ export default function MyEvents() {
     function goToMyEventPage(id, name) {
         localStorage.setItem("eventId", `${id}`);
         localStorage.setItem("eventName", `${name}`);
-        navigate(`/events/${id}`);
+        navigate(`/my-events/${id}`);
     }
 
     return (
         <>
             <MyEventsBody disabled={openMenu}>
                 <Background />
-                <Header />
+                <Header setOpenMenu={setOpenMenu} />
                 <Title text="Seus eventos" />
                 <MyEventsList>
                     {events.length === 0 ?
@@ -52,9 +53,9 @@ export default function MyEvents() {
                         :
                         events.map(event => {
                             const { id, name, location, timestamp } = event;
-                            const dateTime = getDateTime(timestamp);
+                            const dateTime = getDateTime(new Date(timestamp));
                             return (
-                                <Event style={{ backgroundImage: `url(${event.photo})` }} onClick={() => goToMyEventPage(id, name)}>
+                                <Event onClick={() => goToMyEventPage(id, name)}>
                                     <div>
                                         <h2>{dateTime.month}</h2>
                                         <h3>{dateTime.day}</h3>
@@ -71,7 +72,7 @@ export default function MyEvents() {
                 </MyEventsList>
                 <Footer />
             </MyEventsBody>
-            <Menu closeMenu={() => setOpenMenu(false)} style={{ visibility: openMenu ? "default" : "hidden" }} />
+            <Menu setOpenMenu={setOpenMenu} openMenu={openMenu} />
         </>
     );
 }
@@ -99,7 +100,7 @@ const MyEventsList = styled.nav`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 23vh;
+    margin-top: 24vh;
     padding-bottom: 26px;
     z-index: 1;
 
@@ -112,12 +113,12 @@ const MyEventsList = styled.nav`
 `;
 
 const Event = styled.div`
-    width: 100%;
-    height: 27%;
+    width: 77vw;
+    height: 21vw;
     background-color: #471F69;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    border-radius: 5px;
     margin-top: 26px;
 
     div:first-child {
@@ -133,37 +134,39 @@ const Event = styled.div`
         border: 0.5vh solid #D9D9D9;
 
         h2 {
-            font-size: 1.7vh;
-            line-height: 1.8vh;
+            font-size: 1.9vh;
+            line-height: 2vh;
             font-weight: 500;
             color: #000000;
         }
 
         h3 {
-            font-size: 2.3vh;
-            line-height: 2.4vh;
+            font-size: 2.8vh;
+            line-height: 2.8vh;
             font-weight: 500;
             color: #000000;
+            margin-top: 2px;
         }
     }
 
-    div:last-child {
+    div:nth-child(2) {
         height: 7vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-bottom: 5px;
         margin-left: 4%;
 
         h2 {
-            font-size: 4vh;
-            line-height: 4.2vh;
+            font-size: 6vw;
+            line-height: 6vw;
             font-weight: 500;
             color: #FFFFFF;
         }
 
         h3 {
-            font-size: 3vh;
-            line-height: 3.2vh;
+            font-size: 5vw;
+            line-height: 5vw;
             font-weight: 500;
             color: #FFFFFF;
         }
@@ -172,7 +175,6 @@ const Event = styled.div`
     ion-icon {
         font-size: 3vh;
         color: #FFFFFF;
-        margin-right: 6%;
-        margin-left: 4%;
+        margin-left: 2vw;
     }
 `;

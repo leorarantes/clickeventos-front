@@ -7,9 +7,9 @@ import axios from 'axios';
 import logo from "../../assets/img/logo.png";
 import background from "../../assets/img/dark-background.png";
 
-export default function SignUp() {
+export default function SignIn() {
     const navigate = useNavigate();
-    const url = "localhost:4000/sign-in";
+    const url = "http://localhost:4000/sign-in";
 
     const [user, setUser] = useState({ email: "", password: "" });
 
@@ -23,7 +23,7 @@ export default function SignUp() {
         request.then(response => {
             const { token } = response.data;
             localStorage.setItem("token", token);
-            navigate('/', { replace: true })
+            navigate('/events')
         });
         request.catch(error => {
             if(error.response.status === 401) return alert("Erro! Senha incorreta.");

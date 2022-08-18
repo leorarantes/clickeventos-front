@@ -53,7 +53,7 @@ export default function SignUp() {
             setConfirmPassword(str);
             }} />
             <Button onClick={() => sendRequest()}>Cadastrar</Button>
-            <Link to="/sign-in"><AlternativeLink>Já tem uma conta? Entre agora!</AlternativeLink></Link>
+            <Link to="/"><AlternativeLink>Já tem uma conta? Entre agora!</AlternativeLink></Link>
         </SignUpBody>
     );
 }

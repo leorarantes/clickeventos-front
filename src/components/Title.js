@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export default function Title(text) {
+export default function Title(props) {
     return (
         <TitleBody>
-            <h1>{text}</h1>
+            <h1>{props.text}</h1>
         </TitleBody>
     );
 }
@@ -16,13 +16,14 @@ const TitleBody = styled.div`
     align-items: center;
     justify-content: center;
     position: fixed;
-    top: 9vh;
+    top: 10vh;
     z-index: 2;
 
     h1 {
-        width: 70%;
-        font-size: 4.2vh;
-        line-height: 4.8vh;
+        width: 220px;
+        font-size: 3.4vh;
+        line-height: 4vh;
         color: #000000;
+        text-align: center;
     }
 `;
